@@ -1,0 +1,124 @@
+import React, { useEffect, useState, useMemo } from 'react';
+
+function TeamCard() {
+
+    //constants
+    const [canasta, setCanasta] = useState(false);
+
+    const [espejitoPoints, setEspejitoPoints] = useState(0)
+    const [espejito, setEspejito] = useState(false);
+
+    const [redThreeChecked, setRedThreeChecked] = useState(0);
+    const [redThreePoints, setRedThreePoints] = useState(0);
+
+    const [canastasRojas, setCanastasRojas] = useState(0);
+    const [canastasNegras, setCanastasNegras] = useState(0);
+    const [canastasRojasPoints, setCanastasRojasPoints] = useState(0);
+    const [canastasNegrasPoints, setCanastasNegrasPoints] = useState(0);
+
+    //functions
+    const redThrees = useMemo(() => {
+
+        return [0, 1, 2, 3, 4].map((three, index) => {
+            return (index <= redThreeChecked)
+        })
+
+    }, [redThreeChecked]);
+
+    useEffect(() => {
+        if (espejito) {
+            setEspejitoPoints(100)
+        } else {
+            setEspejitoPoints(0)
+        };
+
+        if (redThreeChecked === 4) {
+            setRedThreePoints(800)
+        } else {
+            setRedThreePoints(100 * redThreeChecked)
+        };
+
+        setCanastasRojasPoints(canastasRojas * 500);
+        setCanastasNegrasPoints(canastasNegras * 500)
+
+        if (canastasRojas === 0 && canastasNegras === 0) {
+            setCanasta(false)
+        } else {
+            setCanasta(true)
+        }
+
+    }, [espejito, redThreeChecked, canastasRojas, canastasNegras]);
+
+    var points = (espejitoPoints + redThreePoints + canastasRojasPoints + canastasNegrasPoints);
+
+    return (
+        <div>
+            <div className="team-name">
+                <h1>team name</h1>
+                <h2>{points}</h2>
+            </div>
+            <div className="row-container">
+                <div>
+                    <h1>ESPEJITO</h1>
+                    <div onClick={() => setEspejito(!espejito)}>
+                        {espejito ?
+                            (<i className="fas fa-check-square"></i>)
+                            : (<i className="far fa-square"></i>)}
+                    </div>
+                </div>
+                <div>
+                    <h1>TRES ROJO</h1>
+                    <div className="row-container">
+                        <div onClick={() => setRedThreeChecked(0)}>
+                            <button>
+                                NONE
+                        </button>
+                        </div>
+                        <div onClick={() => setRedThreeChecked(1)}>
+                            {redThrees[1] ?
+                                (<i className="far fa-check-circle"></i>)
+                                : (<i className="far fa-circle"></i>)}
+                        </div>
+                        <div onClick={() => setRedThreeChecked(2)}>
+                            {redThrees[2] ?
+                                (<i className="far fa-check-circle"></i>)
+                                : (<i className="far fa-circle"></i>)}
+                        </div>
+                        <div onClick={() => setRedThreeChecked(3)}>
+                            {redThrees[3] ?
+                                (<i className="far fa-check-circle"></i>)
+                                : (<i className="far fa-circle"></i>)}
+                        </div>
+                        <div onClick={() => setRedThreeChecked(4)}>
+                            {redThrees[4] ?
+                                (<i className="far fa-check-circle"></i>)
+                                : (<i className="far fa-circle"></i>)}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h1>CANASTAS ROJAS</h1>
+                        <input
+                            type="number"
+                            min="0"
+                            max="11"
+                            onChange={(e) => { setCanastasRojas(e.target.value) }}
+                        ></input>
+                    </div>
+                    <div>
+                        <h1>CANASTAS NEGRAS</h1>
+                        <input
+                            type="number"
+                            min="0"
+                            max="11"
+                            onChange={(e) => { setCanastasNegras(e.target.value) }}
+                        ></input>
+                    </div>
+                </div>
+            </div>
+        </div >
+    );
+};
+
+export default TeamCard;
