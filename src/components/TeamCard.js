@@ -3,6 +3,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 function TeamCard() {
 
     //constants
+    const [points, setPoints] = useState(0);
+
     const [canasta, setCanasta] = useState(false);
 
     const [espejitoPoints, setEspejitoPoints] = useState(0)
@@ -16,6 +18,8 @@ function TeamCard() {
     const [canastasRojasPoints, setCanastasRojasPoints] = useState(0);
     const [canastasNegrasPoints, setCanastasNegrasPoints] = useState(0);
 
+    const [roundPoints, setRoundPoints] = useState(0);
+
     //functions
     const redThrees = useMemo(() => {
 
@@ -24,6 +28,14 @@ function TeamCard() {
         })
 
     }, [redThreeChecked]);
+
+    useEffect(() => {
+        if (canastasRojas === 0 && canastasNegras === 0) {
+            setCanasta(false)
+        } else {
+            setCanasta(true)
+        };
+    }, [canastasRojas, canastasNegras])
 
     useEffect(() => {
         if (espejito) {
@@ -39,17 +51,17 @@ function TeamCard() {
         };
 
         setCanastasRojasPoints(canastasRojas * 500);
-        setCanastasNegrasPoints(canastasNegras * 500)
-
-        if (canastasRojas === 0 && canastasNegras === 0) {
-            setCanasta(false)
-        } else {
-            setCanasta(true)
-        }
+        setCanastasNegrasPoints(canastasNegras * 300);
 
     }, [espejito, redThreeChecked, canastasRojas, canastasNegras]);
 
-    var points = (espejitoPoints + redThreePoints + canastasRojasPoints + canastasNegrasPoints);
+    useEffect(() => {
+        if (canasta) {
+            setPoints(espejitoPoints + redThreePoints + canastasRojasPoints + canastasNegrasPoints + roundPoints);
+        } else {
+            setPoints(-(espejitoPoints + redThreePoints) + roundPoints);
+        }
+    }, [espejitoPoints, redThreePoints, canastasRojasPoints, canastasNegrasPoints, roundPoints]);
 
     return (
         <div>
@@ -57,64 +69,67 @@ function TeamCard() {
                 <h1>team name</h1>
                 <h2>{points}</h2>
             </div>
-            <div className="row-container">
-                <div>
+            <div className="grid">
+                <div className="grid-box">
                     <h1>ESPEJITO</h1>
-                    <div onClick={() => setEspejito(!espejito)}>
+                    <div className="input" onClick={() => setEspejito(!espejito)}>
                         {espejito ?
                             (<i className="fas fa-check-square"></i>)
                             : (<i className="far fa-square"></i>)}
                     </div>
                 </div>
-                <div>
+                <div className="grid-box">
                     <h1>TRES ROJO</h1>
                     <div className="row-container">
-                        <div onClick={() => setRedThreeChecked(0)}>
-                            <button>
-                                NONE
-                        </button>
+                        <div className="input" onClick={() => setRedThreeChecked(0)}>
+                            <i className="fas fa-times-circle"></i>
                         </div>
-                        <div onClick={() => setRedThreeChecked(1)}>
+                        <div className="input" onClick={() => setRedThreeChecked(1)}>
                             {redThrees[1] ?
                                 (<i className="far fa-check-circle"></i>)
                                 : (<i className="far fa-circle"></i>)}
                         </div>
-                        <div onClick={() => setRedThreeChecked(2)}>
+                        <div className="input" onClick={() => setRedThreeChecked(2)}>
                             {redThrees[2] ?
                                 (<i className="far fa-check-circle"></i>)
                                 : (<i className="far fa-circle"></i>)}
                         </div>
-                        <div onClick={() => setRedThreeChecked(3)}>
+                        <div className="input" onClick={() => setRedThreeChecked(3)}>
                             {redThrees[3] ?
                                 (<i className="far fa-check-circle"></i>)
                                 : (<i className="far fa-circle"></i>)}
                         </div>
-                        <div onClick={() => setRedThreeChecked(4)}>
+                        <div className="input" onClick={() => setRedThreeChecked(4)}>
                             {redThrees[4] ?
                                 (<i className="far fa-check-circle"></i>)
                                 : (<i className="far fa-circle"></i>)}
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <h1>CANASTAS ROJAS</h1>
-                        <input
-                            type="number"
-                            min="0"
-                            max="11"
-                            onChange={(e) => { setCanastasRojas(e.target.value) }}
-                        ></input>
-                    </div>
-                    <div>
-                        <h1>CANASTAS NEGRAS</h1>
-                        <input
-                            type="number"
-                            min="0"
-                            max="11"
-                            onChange={(e) => { setCanastasNegras(e.target.value) }}
-                        ></input>
-                    </div>
+                <div className="grid-box">
+                    <h1>CANASTAS ROJAS</h1>
+                    <input className="input"
+                        type="number"
+                        min="0"
+                        max="11"
+                        onChange={(e) => { setCanastasRojas(e.target.valueAsNumber) }}
+                    ></input>
+                </div>
+                <div className="grid-box">
+                    <h1>CANASTAS NEGRAS</h1>
+                    <input className="input"
+                        type="number"
+                        min="0"
+                        max="11"
+                        onChange={(e) => { setCanastasNegras(e.target.valueAsNumber) }}
+                    ></input>
+                </div>
+                <div className="grid-big-box">
+                    <h1>PUNTOS DE RONDA</h1>
+                    <input className="input"
+                        type="number"
+                        onChange={(e) => { setRoundPoints(e.target.valueAsNumber) }}
+                    ></input>
                 </div>
             </div>
         </div >

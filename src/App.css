@@ -15,12 +15,62 @@
 
 .row-container {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-between;
+}
+
+.row-container > div{
+  margin: 0 0.5vw;
 }
 
 .team-name {
-  font-size: 1rem;
-  padding: 1rem;
-  margin: 0.5rem;
+  width: 40vw;
+  font-size: 3vw;
+  padding: 2.5vw;
+  margin: 0.5rem 0;
   border-bottom: solid #FFE09E;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  width: 40vw;
+  padding: 2vw;
+  margin: 0.5vw;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+
+/* ITEMS */
+.grid-box {
+  padding: 1vw;
+}
+
+.grid h1 {
+  margin: 1vw;
+  font-size: 2.5vw;
+}
+
+.input {
+  font-size: 2.5vw;
+}
+
+.grid-big-box {
+  grid-column: 1 / span 2;
+  padding: 1vw;
+}
+
+/* SUBMIT BUTTON*/
+.submit-round{
+  padding: 1vw 2vw;
+  font-size: 2vw;
+  font-weight: bold;
+  background: none;
+  border-radius: 3vw;
+  border-color: #FFE09E;
+  border-style: solid;
+}
+
+.submit-round:hover {
+  background: #FFE09E;
+  border-color: #F0CA7A;
 }

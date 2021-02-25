@@ -14,7 +14,7 @@ function App() {
         <TeamCard></TeamCard>
         <TeamCard></TeamCard>
       </div>
-
+      <button className="submit-round">SUBMIT</button>
     </div>
   );
 }
