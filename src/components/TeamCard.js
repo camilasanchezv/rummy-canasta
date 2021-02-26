@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 
-function TeamCard() {
+function TeamCard({ team }) {
 
     //constants
     const [points, setPoints] = useState(0);
@@ -66,7 +66,7 @@ function TeamCard() {
     return (
         <div>
             <div className="team-name">
-                <h1>team name</h1>
+                <h1>{team}</h1>
                 <h2>{points}</h2>
             </div>
             <div className="grid">
